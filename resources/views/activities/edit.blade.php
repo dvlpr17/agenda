@@ -22,25 +22,89 @@
                 
             </div>
 
-
+            
             <div class=" bg-white lg:p-16 sm:p-10 p-16 ">
-                <h3 class="font-bold mt-1 text-lg font-semibold sm:text-slate-900 md:text-2xl text-2xl pb-5">Notas de la Actividad</h3>
-                {{-- @foreach ($activity->notes as $note) --}}
-                @php $contador = 0; @endphp
+                <article x-data=" { open: true }">
+                    <h3 class="font-bold mt-1 text-lg font-semibold sm:text-slate-900 md:text-2xl text-2xl pb-5 cursor-pointer" @click="open = !open">Notas de la Actividad</h3>
+                    <div  x-show="open">
+                        @foreach ($notes as $note)
+                            @foreach ($notesUsers as $nu)
+                                @if ($note->user_id == $nu->id)
+                                    <h4><strong>{{$nu->name}} {{$nu->lastname}}</strong></h4>
+                                @endif
+                            @endforeach
 
-                @foreach ($users as $user)
-                    @php $contenido[] = $user->name.' '.$user->lastname; @endphp
-                @endforeach
-
-                @foreach ($notes as $note)
-                    <h4><strong>{{$contenido[$contador]}}</strong></h4>
-                    <div class="bg-slate-100 p-5 border-gray-600 rounded-lg">
-                            {{ $note->nota}}
+                            <div class="bg-slate-100 p-5 border-gray-600 rounded-lg">
+                                {{ $note->nota }}
+                            </div>
+                            <div class="my-5 border-b"></div>
+                        @endforeach
                     </div>
-                    @php $contador++; @endphp
-                    <div class="my-5 border-b"></div>
-                @endforeach
+                </article>
+                <article x-data=" { open: true }">
+                    <h3 class="font-bold mt-1 text-lg font-semibold sm:text-slate-900 md:text-2xl text-2xl pb-5 cursor-pointer" @click="open = !open">Archivos Adjuntos</h3>
+                    <div  x-show="open">
+                                
+                        {{-- AQUI ORDENO LOS ARCHIVOS POR USUARIO --}}
+                        @php
+                            $cont=0;
+                        @endphp
+                        @foreach ($files as $file)
+                            @php
+                                $thearray[$cont][0] = $file->user_id;
+                                $thearray[$cont][1] = $file->ruta;
+                                $cont++;
+                            @endphp
+                        @endforeach
+
+
+                        {{-- EN EL MISMO ORDEN SE MUESTRA EL NOMBRE DEL USUARIO Y SUS ARCHIVOS --}}
+                        @empty ($thearray)
+                            No hay archivos
+                        @else
+                            @php
+                                sort($thearray);
+                                $same = 000000000123;
+                                $contadorArchivos = 1;
+                                $footer = 0;
+                            @endphp
+
+                            @for ($i = 0; $i < count($thearray); $i++)
+                                @if ($same != $thearray[$i][0])
+                                    
+                                    @php
+                                        $same = $thearray[$i][0];
+                                        $footer++;
+                                        $contadorArchivos = 1;
+                                    @endphp
+                                    @if ($footer == 2)
+                                        <div class="my-5 border-b"></div>
+
+                                        @php $footer = 1; @endphp
+                                    @endif
+                                    @foreach ($filesUsers as $fu)
+                                        @if ($thearray[$i][0] == $fu->id)
+                                            <h4><strong>{{$fu->name}} {{$fu->lastname}}</strong></h4>
+                                        @endif                                
+                                    @endforeach
+                                                                
+                                @endif
+
+
+                                <a href="{{Storage::url($thearray[$i][1])}}" target="_blank">Archivo{{ $contadorArchivos }}</a>
+                                @php $contadorArchivos++; @endphp
+                            @endfor
+
+                        @endempty
+
+                            
+                            
+                        
+
+                    </div>
+                </article>
             </div>
+
 
         </div>
     </div>

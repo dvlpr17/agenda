@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Activity;
+use App\Models\File;
 use App\Models\Note;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -75,13 +76,35 @@ class ActivityController extends Controller
      */
     public function edit(Activity $activity)
     {
-        $notes = Note::where('activity_id', $activity->id)->latest('id')->get();
-        foreach ($notes as $note) {
-            $theUsers[] = $note->user_id;
-        }
+        $theNoteUsers = [];
+        $theFilesUsers = [];
 
-        $users = User::findMany($theUsers);
-        return view('activities.edit', compact('activity','notes','users'));
+        /////////////////////////////////////////////////////////////////////////
+        // usuarios que agregaron notas
+        $notes = Note::where('activity_id', $activity->id)->latest('id')->get();
+        if(isset($notes)){
+            foreach ($notes as $note) {
+                $theNoteUsers[] = $note->user_id;
+            }
+        }
+        $notesUsers = User::findMany($theNoteUsers);
+        // return $notesUsers;
+        
+        /////////////////////////////////////////////////////////////////////////
+        // usuarios que subieron archivos
+        $files = File::where('activity_id', $activity->id)->latest('id')->get();
+        if (isset($files)) {
+            foreach ($files as $file) {
+                $theFilesUsers[] = $file->user_id;
+            }
+        } 
+        $filesUsers = User::findMany($theFilesUsers);
+        // return $filesUsers;
+        
+        /////////////////////////////////////////////////////////////////////////
+
+
+        return view('activities.edit', compact('activity','notes', 'notesUsers', 'files', 'filesUsers'));
         // return view('activities.edit', compact('activity'));
     }
 
@@ -103,17 +126,15 @@ class ActivityController extends Controller
             'status' => 'required'
         ]);
 
-        // if ($request->input('user_id') != auth()->user()->id) {
-            //POR SI EL USUARIO MODIFICA EL ID CON EL QUE SE ESTA DANDO DE ALTA LA ACTIVIDAD
-            // return redirect()->guest(route('activities.create'));
-        // }
-        //GUARDANDO LOS REGISTROS
-        // $activity = Activity::create($request->all());
-        //GUARDANDO LA RELACIÓN USUARIOS ACTIVIDADES
-        // $activity->users()->attach($request->user_id);
+        if ($request->input('user_id') != auth()->user()->id) {
+            // POR SI EL USUARIO MODIFICA EL ID CON EL QUE SE ESTA DANDO DE ALTA LA ACTIVIDAD
+            return redirect()->guest(route('activities.index'));
+        }
+        //ACTULIZAR LOS DATOS DEL REGISTROS
+        $activity->update($request->all());
 
-        return $request;
-        // return redirect()->route('activities.edit', $activity);        
+        
+        return redirect()->route('activities.index');        
         
     }
 
