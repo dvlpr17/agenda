@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Activity;
+use App\Models\Note;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ActivityController extends Controller
@@ -73,7 +75,14 @@ class ActivityController extends Controller
      */
     public function edit(Activity $activity)
     {
-        return view('activities.edit', compact('activity'));
+        $notes = Note::where('activity_id', $activity->id)->latest('id')->get();
+        foreach ($notes as $note) {
+            $theUsers[] = $note->user_id;
+        }
+
+        $users = User::findMany($theUsers);
+        return view('activities.edit', compact('activity','notes','users'));
+        // return view('activities.edit', compact('activity'));
     }
 
     /**
@@ -85,7 +94,27 @@ class ActivityController extends Controller
      */
     public function update(Request $request, Activity $activity)
     {
-        //
+        $request->validate([
+            'concept' => 'required',
+            'description' => 'required',
+            'date_petition' => 'required',
+            'deadline' => 'required',
+            'date_entry' => 'required',
+            'status' => 'required'
+        ]);
+
+        // if ($request->input('user_id') != auth()->user()->id) {
+            //POR SI EL USUARIO MODIFICA EL ID CON EL QUE SE ESTA DANDO DE ALTA LA ACTIVIDAD
+            // return redirect()->guest(route('activities.create'));
+        // }
+        //GUARDANDO LOS REGISTROS
+        // $activity = Activity::create($request->all());
+        //GUARDANDO LA RELACIÓN USUARIOS ACTIVIDADES
+        // $activity->users()->attach($request->user_id);
+
+        return $request;
+        // return redirect()->route('activities.edit', $activity);        
+        
     }
 
     /**
