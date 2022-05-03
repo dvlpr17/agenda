@@ -2,10 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Activity;
+use App\Models\File;
 use Illuminate\Http\Request;
 
 class FileController extends Controller
 {
+
+    public function crearFile(Activity $activity)
+    {
+        return view('files.create', compact('activity'));
+    }
+
+
+
     /**
      * Display a listing of the resource.
      *
@@ -23,7 +33,7 @@ class FileController extends Controller
      */
     public function create()
     {
-        //
+        return view('files.create');
     }
 
     /**
@@ -43,7 +53,7 @@ class FileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(File $files)
     {
         //
     }
@@ -54,7 +64,7 @@ class FileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(File $files)
     {
         //
     }
@@ -66,7 +76,7 @@ class FileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, File $files)
     {
         //
     }
@@ -77,7 +87,7 @@ class FileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(File $files)
     {
         //
     }

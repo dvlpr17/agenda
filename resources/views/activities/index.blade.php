@@ -3,7 +3,7 @@
     <div class="container mx-auto py-8">
 
         <div class="max-w-6xl mx-auto grid grid-cols-1 py-3 pl-3 border-b">
-            <h1 class="font-bold mt-1 text-lg font-semibold sm:text-slate-900 md:text-3xl text-3xl">Listado de actividades</h1>
+            <h1 class="font-bold mt-1 sm:text-slate-900 text-3xl">Listado de actividades</h1>
         </div>
         
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css">

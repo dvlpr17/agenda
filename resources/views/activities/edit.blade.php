@@ -4,7 +4,7 @@
 
 
         <div class="py-3 pl-3 border-b">
-            <h1 class="font-bold mt-1 text-lg font-semibold sm:text-slate-900 md:text-3xl text-3xl">Editar Actividad</h1>
+            <h1 class="font-bold mt-1 sm:text-slate-900 text-3xl">Editar Actividad</h1>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2">
@@ -24,8 +24,8 @@
 
             
             <div class=" bg-white lg:p-16 sm:p-10 p-16 ">
-                <article x-data=" { open: true }">
-                    <h3 class="font-bold mt-1 text-lg font-semibold sm:text-slate-900 md:text-2xl text-2xl pb-5 cursor-pointer" @click="open = !open">Notas de la Actividad</h3>
+                <article x-data=" { open: true }" class="mb-5">
+                    <h3 class="font-bold mt-1 sm:text-slate-900 md:text-2xl text-2xl pb-5 cursor-pointer" @click="open = !open">Notas de la Actividad</h3>
                     <div  x-show="open">
                         @foreach ($notes as $note)
                             @foreach ($notesUsers as $nu)
@@ -40,9 +40,10 @@
                             <div class="my-5 border-b"></div>
                         @endforeach
                     </div>
+                    <a href="{{ route('notes.create', $activity)}}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Agregar nota</a>
                 </article>
                 <article x-data=" { open: true }">
-                    <h3 class="font-bold mt-1 text-lg font-semibold sm:text-slate-900 md:text-2xl text-2xl pb-5 cursor-pointer" @click="open = !open">Archivos Adjuntos</h3>
+                    <h3 class="font-bold mt-1 sm:text-slate-900 md:text-2xl text-2xl pb-5 cursor-pointer" @click="open = !open">Archivos Adjuntos</h3>
                     <div  x-show="open">
                                 
                         {{-- AQUI ORDENO LOS ARCHIVOS POR USUARIO --}}
@@ -94,17 +95,15 @@
                                 <a href="{{Storage::url($thearray[$i][1])}}" target="_blank">Archivo{{ $contadorArchivos }}</a>
                                 @php $contadorArchivos++; @endphp
                             @endfor
-
                         @endempty
 
-                            
-                            
-                        
+                        <p class="mt-5">
+                           <a href="{{ route('files.create', $activity) }}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Agregar archivos</a>
+                        </p>
 
                     </div>
                 </article>
             </div>
-
 
         </div>
     </div>

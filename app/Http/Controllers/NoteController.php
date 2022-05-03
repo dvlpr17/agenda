@@ -2,15 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Activity;
+use App\Models\Note;
 use Illuminate\Http\Request;
 
 class NoteController extends Controller
 {
+
+
+
+    public function crearNota(Activity $activity)
+    {
+        return view('notes.create', compact('activity'));
+    }
+
+
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+        
     public function index()
     {
         //
@@ -21,9 +34,14 @@ class NoteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function guardarNota(Request $request){
+
+    }
+
     public function create()
     {
-        //
+        return view('notes.create');
     }
 
     /**
@@ -34,7 +52,17 @@ class NoteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        $request->validate([
+            'nota' => 'required'
+        ]);
+
+        //GUARDANDO LOS REGISTROS
+        Note::create($request->all());
+
+        // OBTENER EL OBJETO ACTIVITY CON EL ID PARA REDIRECCIONAR A LA VISTA EDIT Y MOSTRAR LA NOTA
+        $activity = Activity::find($request->activity_id);
+        return redirect()->route('activities.edit', $activity);
     }
 
     /**
@@ -43,7 +71,7 @@ class NoteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Note $note)
     {
         //
     }
@@ -54,7 +82,7 @@ class NoteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Note $note)
     {
         //
     }
@@ -66,7 +94,7 @@ class NoteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Note $note)
     {
         //
     }
@@ -77,7 +105,7 @@ class NoteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Note $note)
     {
         //
     }

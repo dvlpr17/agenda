@@ -9,6 +9,8 @@ class Note extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['user_id', 'activity_id','nota'];
+
     // uno a muchos inversa
     public function activity()
     {

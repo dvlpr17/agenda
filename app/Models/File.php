@@ -9,6 +9,8 @@ class File extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['user_id', 'activity_id', 'ruta'];
+
     // uno a muchos inversa
     public function activity()
     {

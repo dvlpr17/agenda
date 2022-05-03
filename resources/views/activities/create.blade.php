@@ -4,7 +4,7 @@
 
 
         <div class="max-w-2xl mx-auto grid grid-cols-1 py-3 pl-3 border-b">
-            <h1 class=" mt-1 text-lg font-semibold sm:text-slate-900 md:text-3xl text-3xl">Agregar Actividad</h1>
+            <h1 class=" mt-1 font-semibold sm:text-slate-900 text-3xl">Agregar Actividad</h1>
         </div>
 
         <div class="max-w-2xl mx-auto bg-white p-16">

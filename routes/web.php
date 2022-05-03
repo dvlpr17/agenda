@@ -12,8 +12,13 @@ Route::get('/', function () {
 });
 
 
-Route::resource('files', FileController::class)->names('files');
-Route::resource('notes', NoteController::class)->names('notes');
+Route::get('files/{activity}', [FileController::class,'crearFile'])->name('files.create');
+Route::post('file', [FileController::class, 'store'])->name('files.store');
+
+Route::get('notes/{activity}', [NoteController::class, 'crearNota'])->name('notes.create');
+Route::post('note', [NoteController::class, 'store'])->name('notes.store');
+// Route::get('activities/edit', [NoteController::class, 'store'])->name('notes.store');
+
 Route::resource('activities', ActivityController::class)->names('activities');
 
 Route::middleware([
