@@ -67,33 +67,41 @@
                                 sort($thearray);
                                 $same = 000000000123;
                                 $contadorArchivos = 1;
-                                $footer = 0;
                             @endphp
 
                             @for ($i = 0; $i < count($thearray); $i++)
                                 @if ($same != $thearray[$i][0])
-                                    
+
+                                    @if ($contadorArchivos > 1)
+                                        </div>
+                                        <div class="my-5 border-b"></div>
+                                    @endif
+
                                     @php
                                         $same = $thearray[$i][0];
-                                        $footer++;
                                         $contadorArchivos = 1;
                                     @endphp
-                                    @if ($footer == 2)
-                                        <div class="my-5 border-b"></div>
 
-                                        @php $footer = 1; @endphp
-                                    @endif
                                     @foreach ($filesUsers as $fu)
                                         @if ($thearray[$i][0] == $fu->id)
                                             <h4><strong>{{$fu->name}} {{$fu->lastname}}</strong></h4>
                                         @endif                                
                                     @endforeach
-                                                                
+
+                                    @if ($contadorArchivos == 1)
+                                        <div class="bg-slate-100 p-5 border-gray-600 rounded-lg">
+                                    @endif
+                                    
                                 @endif
 
 
                                 <a href="{{Storage::url($thearray[$i][1])}}" target="_blank">Archivo{{ $contadorArchivos }}</a>
                                 @php $contadorArchivos++; @endphp
+                                @if (count($thearray) == ($i+1))
+
+                                    </div>
+                                    <div class="my-5 border-b"></div>
+                                @endif
                             @endfor
                         @endempty
 

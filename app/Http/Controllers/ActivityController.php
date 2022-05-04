@@ -146,6 +146,16 @@ class ActivityController extends Controller
      */
     public function destroy(Activity $activity)
     {
-        //
+
+        // $activity->dropForeign(['user_id']);
+
+        Activity::destroy($activity->activity_id);
+        Activity::where('id', $activity->activity_id)->delete();
+
+        // return $activity->users;
+
+        // $activity->users->delete();
+        // $activity->delete();
+        return redirect()->route('activities.index');
     }
 }

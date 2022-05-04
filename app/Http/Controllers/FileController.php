@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Activity;
 use App\Models\File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class FileController extends Controller
 {
@@ -33,7 +34,7 @@ class FileController extends Controller
      */
     public function create()
     {
-        return view('files.create');
+        // return view('files.create');
     }
 
     /**
@@ -44,7 +45,26 @@ class FileController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        $request->validate([
+            'file' => 'required'
+        ]);
+
+        // $url = Storage::put('archivos', $request->file('ruta'));
+        $url = Storage::put('archivos', $request->file('file'));
+
+        
+        //GUARDANDO LOS REGISTROS
+        File::create([
+            'user_id' => $request->user_id,
+            'activity_id' => $request->activity_id,
+            'ruta' => $url
+        ]);
+
+
+        // $activity = Activity::find($request->activity_id);
+        // return redirect()->route('activities.edit', $activity);
+        
     }
 
     /**
@@ -89,6 +109,6 @@ class FileController extends Controller
      */
     public function destroy(File $files)
     {
-        //
+        
     }
 }

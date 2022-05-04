@@ -41,7 +41,7 @@
                                 <a href="{{ route('activities.edit', $act) }}" class="btn btn-primary btn-sm"> Editar </a>
                             </td>
                             <td>
-                                <form action="{{route('activities.destroy', $act)}}" method="POST">
+                                <form action="{{route('activities.destroy', $act)}}" method="POST" class="formulario-eliminar">
                                     @csrf
                                     @method('delete')
                                     <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
@@ -103,7 +103,35 @@
             });
         } );        
     </script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        /*
+        $(".formulario-eliminar").submit(function(e){
+            e.preventDefault();
 
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                    )
+                    console.log("Se borro");
+                    // this.submit();
+                }
+            })        
+
+        });
+        */
+    </script>
 </x-app-layout>
 
 
