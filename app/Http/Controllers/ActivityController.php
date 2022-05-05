@@ -7,6 +7,7 @@ use App\Models\File;
 use App\Models\Note;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ActivityController extends Controller
 {
@@ -147,15 +148,29 @@ class ActivityController extends Controller
     public function destroy(Activity $activity)
     {
 
-        // $activity->dropForeign(['user_id']);
 
-        Activity::destroy($activity->activity_id);
-        Activity::where('id', $activity->activity_id)->delete();
+        //-------------------------------------
+        // Manera 1.-  Si funciona, no es necesaria
 
-        // return $activity->users;
+        // Note::where('activity_id', $activity->id)->latest('id')->delete();
+        // File::where('activity_id', $activity->id)->latest('id')->delete();
 
-        // $activity->users->delete();
-        // $activity->delete();
+        //-------------------------------------
+        // Manera 2.- Si funciona
+
+        //BORRA LOS ARCHIVOS RELACIONADOS CON LA ACTIVIDAD
+        $files = File::where('activity_id', $activity->id)->latest('id')->get();
+        foreach ($files as $file) {
+            Storage::delete($file->ruta);
+        }
+
+        $activity->users()->detach();
+        $activity->delete();
+
         return redirect()->route('activities.index');
+
+        //-------------------------------------
+
+        
     }
 }

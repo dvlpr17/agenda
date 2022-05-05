@@ -105,32 +105,31 @@
     </script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        /*
+        
         $(".formulario-eliminar").submit(function(e){
             e.preventDefault();
 
             Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
+                title: 'Se va a eliminar el registro',
+                text: "Al borrar se eleminaran los archivos y notas de la actividad",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
+                confirmButtonText: 'Borrar'
                 }).then((result) => {
                 if (result.isConfirmed) {
-                    Swal.fire(
-                    'Deleted!',
-                    'Your file has been deleted.',
-                    'success'
-                    )
-                    console.log("Se borro");
-                    // this.submit();
+                    // Swal.fire(
+                    // 'Registro borrado',
+                    // 'La actividad junto con las notas y archivos fueron borrados',
+                    // 'Continuar'
+                    // )
+                    this.submit();
                 }
             })        
 
         });
-        */
+        
     </script>
 </x-app-layout>
 
