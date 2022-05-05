@@ -101,11 +101,16 @@ class ActivityController extends Controller
         } 
         $filesUsers = User::findMany($theFilesUsers);
         // return $filesUsers;
-        
+
+        /////////////////////////////////////////////////////////////////////////
+        // usuarios relacionados con la actividad
+        $users = $activity->users;
+        //return $activity->users;
         /////////////////////////////////////////////////////////////////////////
 
 
-        return view('activities.edit', compact('activity','notes', 'notesUsers', 'files', 'filesUsers'));
+
+        return view('activities.edit', compact('activity','notes', 'notesUsers', 'files', 'filesUsers', 'users'));
         // return view('activities.edit', compact('activity'));
     }
 
@@ -172,5 +177,15 @@ class ActivityController extends Controller
         //-------------------------------------
 
         
+    }
+
+    public function involucradosRemover(Request $request){
+        // "usuario": "10",
+        // "actividad": "30"
+        $activity = Activity::find($request->actividad);
+        $activity->users()->detach($request->usuario);      
+        // $activity->users()->wherePivot('role_id', '!=', 3)->detach();
+
+        return redirect()->route('activities.edit', $activity);
     }
 }

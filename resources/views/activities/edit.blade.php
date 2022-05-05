@@ -42,7 +42,7 @@
                     </div>
                     <a href="{{ route('notes.create', $activity)}}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Agregar nota</a>
                 </article>
-                <article x-data=" { open: true }">
+                <article x-data=" { open: true }" class="mt-16">
                     <h3 class="font-bold mt-1 sm:text-slate-900 md:text-2xl text-2xl pb-5 cursor-pointer" @click="open = !open">Archivos Adjuntos</h3>
                     <div  x-show="open">
                                 
@@ -104,11 +104,33 @@
                                 @endif
                             @endfor
                         @endempty
+                    </div>
 
-                        <p class="mt-5">
-                           <a href="{{ route('files.create', $activity) }}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Agregar archivos</a>
-                        </p>
+                    <p class="mt-5">
+                       <a href="{{ route('files.create', $activity) }}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Agregar archivos</a>
+                    </p>
 
+                </article>
+                <article x-data=" { open: true }" class="mt-16">
+                    <h3 class="font-bold mt-1 sm:text-slate-900 md:text-2xl text-2xl pb-5 cursor-pointer" @click="open = !open">Involucrados</h3>
+                    <div x-show="open">
+                        <p>Click en le nombre de la persona para remover de la lista</p>
+                        <div class="bg-slate-100 p-5 border-gray-600 rounded-lg">
+                            @foreach ($users as $u)
+                                <form action="{{route('activities.involucradosRemover')}}" method="POST" class="formulario-eliminar">
+                                    @csrf
+                                    @method('delete')
+                                    <input type="hidden" name="usuario" value="{{$u->id}}">
+                                    <input type="hidden" name="actividad" value="{{$activity->id}}">
+                                    <p>
+                                        <button type="submit" class="btn btn-danger btn-sm">{{ $u->name }} {{$u->lastname }} </button>
+                                    </p>
+                                </form>
+                            @endforeach
+
+                            
+                        </div>
+                        <div class="my-5 border-b"></div>
                     </div>
                 </article>
             </div>
