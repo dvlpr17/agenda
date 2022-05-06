@@ -105,12 +105,21 @@ class ActivityController extends Controller
         /////////////////////////////////////////////////////////////////////////
         // usuarios relacionados con la actividad
         $users = $activity->users;
+        $au = [];
+
+        if(!empty($users)){
+            foreach ($users as $elUsuario) {
+                $au[] = $elUsuario->id;
+            }
+        }
+
+        //Solo los usuarios no agregados a la actividad
+        $allUsers = User::select("*")->whereNotIn('id', $au)->get();
+        // $allUsers = User::all();
         //return $activity->users;
         /////////////////////////////////////////////////////////////////////////
 
-
-
-        return view('activities.edit', compact('activity','notes', 'notesUsers', 'files', 'filesUsers', 'users'));
+        return view('activities.edit', compact('activity','notes', 'notesUsers', 'files', 'filesUsers', 'users', 'allUsers'));
         // return view('activities.edit', compact('activity'));
     }
 
@@ -185,7 +194,9 @@ class ActivityController extends Controller
         $activity = Activity::find($request->actividad);
         $activity->users()->detach($request->usuario);      
         // $activity->users()->wherePivot('role_id', '!=', 3)->detach();
-
+        
         return redirect()->route('activities.edit', $activity);
     }
+
+
 }
