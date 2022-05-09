@@ -28,7 +28,7 @@ Route::post('extra', [ExtraController::class, 'store'])->name('extra.store');
 
 //USUARIOS aCTIVIDADES
 Route::resource('users', UserController::class)->names('users');
-Route::resource('activities', ActivityController::class)->names('activities');
+Route::resource('activities', ActivityController::class)->only('index','create','store','edit','update','destroy')->names('activities');
 
 
 Route::middleware([

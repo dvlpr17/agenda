@@ -28,18 +28,18 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($users as $u)
+                    @foreach ($users as $user)
                         <tr>
-                            <td>{{ $u->id }}</td>
-                            <td>{{ $u->name }}</td>
-                            <td>{{ $u->lastname }}</td>
-                            <td>{{ $u->email }}</td>
-                            <td>{{ $u->phone_number }}</td>
+                            <td>{{ $user->id }}</td>
+                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->lastname }}</td>
+                            <td>{{ $user->email }}</td>
+                            <td>{{ $user->phone_number }}</td>
                             <td>
-                                <a href="{{ route('users.edit', $u) }}" class="btn btn-primary btn-sm"> Editar </a>
+                                <a href="{{ route('users.edit', $user) }}" class="btn btn-primary btn-sm"> Editar </a>
                             </td>
                             <td>
-                                <form action="{{route('users.destroy', $u)}}" method="POST" class="formulario-eliminar">
+                                <form action="{{route('users.destroy', $user)}}" method="POST" class="formulario-eliminar">
                                     @csrf
                                     @method('delete')
                                     <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
