@@ -49,4 +49,18 @@
                         <span class="font-sans text-sm text-red-600">{{ $message }}</span>
                     @enderror
                 </div>
+
+                {!! Form::label('roles', 'Listado de permisos',['class' => 'font-bold block mb-2 text-sm font-medium']) !!}
+                
+                @foreach ($roles as $role)
+                    
+                    <div class="mb-6">
+                        {!! Form::checkbox('roles[]', $role->id, null, ['class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-1.5']) !!}
+                        {{ $role->name }}
+                        @error('roles')
+                        <span class="font-sans text-sm text-red-600">{{ $message }}</span>
+                        @enderror
+                    </div>
+                @endforeach
+
             </div>

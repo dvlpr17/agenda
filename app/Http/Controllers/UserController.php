@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -17,7 +18,8 @@ class UserController extends Controller
     
     public function create()
     {
-        return view('users.create');
+        $roles = Role::all();
+        return view('users.create', compact('roles'));
     }
 
     
@@ -43,7 +45,8 @@ class UserController extends Controller
     
     public function edit(User $user)
     {
-        return view('users.edit', compact('user'));
+        $roles = Role::all();
+        return view('users.edit', compact('user','roles'));
     }
 
     
@@ -62,33 +65,27 @@ class UserController extends Controller
         $user->lastname = $request->input('lastname');
         $user->email = $request->input('email');
         $user->phone_number = $request->input('phone_number');
+        //GUARDAR ROLES
+        $user->roles()->sync($request->roles);
+
 
         if(empty($request->pass)){
-
             // User::update($request->only('name', 'lastname', 'email', 'phone_number'));
         }else{
-
             $user->password = bcrypt($request->input('pass'));
             // User::update($request->only('name', 'lastname', 'email', 'phone_number') + [ 'password' => bcrypt($request->input('pass')) ]);
         }
+
+
         $user->update();
         return redirect()->route('users.index');
     }
 
     public function destroy(User $user)
     {
-        /*
-        $activity->users()->detach();
-        $activity->delete();
-        
-        return redirect()->route('activities.index');
-        */
-        
         $user->activities()->detach();
         $user->delete();
 
         return redirect()->route('users.index');
-
-        
     }
 }

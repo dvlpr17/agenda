@@ -26,9 +26,9 @@ Route::post('note', [NoteController::class, 'store'])->name('notes.store');
 Route::delete('activities', [ActivityController::class, 'involucradosRemover'])->name('activities.involucradosRemover');
 Route::post('extra', [ExtraController::class, 'store'])->name('extra.store');
 
-//USUARIOS aCTIVIDADES
+//USUARIOS ACTIVIDADES
 Route::resource('users', UserController::class)->names('users');
-Route::resource('activities', ActivityController::class)->only('index','create','store','edit','update','destroy')->names('activities');
+Route::resource('activities', ActivityController::class)->names('activities');
 
 
 Route::middleware([

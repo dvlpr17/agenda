@@ -28,7 +28,9 @@
                     <div class="flex space-x-4">
                         <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
                         <a href="{{ route('activities.index') }}" class="text-decoration-none text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Actividades</a>
-                        <a href="{{ route('users.index') }}" class="text-decoration-none text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Usuarios</a>
+                        @can('Users.index')
+                            <a href="{{ route('users.index') }}" class="text-decoration-none text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Usuarios</a>
+                        @endcan
                     </div>
                 </div>
             </div>
