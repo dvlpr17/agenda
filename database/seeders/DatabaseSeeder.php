@@ -23,14 +23,6 @@ class DatabaseSeeder extends Seeder
         Storage::deleteDirectory('archivos');
         Storage::makeDirectory('archivos');
 
-        // SE CREA UN USUARIO PERSONALIZADO
-        User::create([
-            'name' => 'Boris',
-            'lastname' => 'Brejcha',
-            'email' => 'web@dobleerre.com',
-            'phone_number' => '5233123456789',
-            'password' => bcrypt('123456789'),
-        ]);
 
         // CREACION DE USUARIOS RANDOM
         User::factory(9)->create();

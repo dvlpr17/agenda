@@ -15,8 +15,11 @@
                 
 
                 @include('activities.partials.form')
-                
-                {!! Form::submit('Actualizar Actividad', ['class' => 'text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center']) !!}
+
+                @can('Admin.index')
+                    {!! Form::submit('Actualizar Actividad', ['class' => 'text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center']) !!}
+                    
+                @endcan
 
                 {!! Form::close() !!}
                 
@@ -114,7 +117,9 @@
                 <article x-data=" { open: true }" class="mt-16">
                     <h3 class="font-bold mt-1 sm:text-slate-900 md:text-2xl text-2xl pb-5 cursor-pointer" @click="open = !open">Involucrados</h3>
                     <div x-show="open">
+                        @can('Admin.index')
                         <p>Click en le nombre de la persona para remover de la lista</p>
+                        @endcan
                         <div class="bg-slate-100 p-5 border-gray-600 rounded-lg">
                             @foreach ($users as $u)
                                 <form action="{{route('activities.involucradosRemover')}}" method="POST" class="formulario-eliminar">
@@ -123,7 +128,11 @@
                                     <input type="hidden" name="usuario" value="{{$u->id}}">
                                     <input type="hidden" name="actividad" value="{{$activity->id}}">
                                     <p>
-                                        <button type="submit">{{ $u->name }} {{$u->lastname }} </button>
+                                        @can('Admin.index')
+                                            <button type="submit">{{ $u->name }} {{$u->lastname }} </button>
+                                        @else
+                                            {{ $u->name }} {{$u->lastname }}
+                                        @endcan
                                     </p>
                                 </form>
                             @endforeach
@@ -132,8 +141,9 @@
                         </div>
                         <div class="my-5 border-b"></div>
                     </div>
+                    {{-- Hacer estaparte con livewire --}}
+                    @can('Admin.index')
                     <form action="{{route('extra.store')}}" method = "POST">
-                        {{-- <form action=""> --}}
                         @csrf
                         <input type="hidden" name="actividad" value="{{$activity->id}}">
                         <select name="nuevoUsuario" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
@@ -145,7 +155,7 @@
                             <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Agregar Persona</button>
                         </p>
                     </form>
-
+                    @endcan
                 </article>
             </div>
 

@@ -12,7 +12,9 @@
         <div class="max-w-6xl mx-auto pt-4">
 
             <div class="col-md-12 pb-5">
-                <a href="{{ route('activities.create') }}" class="btn btn-success"> Agregar </a>
+                @can('Activities.create')
+                    <a href="{{ route('activities.create') }}" class="btn btn-success"> Agregar </a>
+                @endcan
             </div>
 
             <table id="ListaActividades" class="table table-striped bg-white" style="width:100%">
@@ -41,11 +43,13 @@
                                 <a href="{{ route('activities.edit', $act) }}" class="btn btn-primary btn-sm"> Editar </a>
                             </td>
                             <td>
-                                <form action="{{route('activities.destroy', $act)}}" method="POST" class="formulario-eliminar">
-                                    @csrf
-                                    @method('delete')
-                                    <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
-                                </form>
+                                @can('Activities.destroy')
+                                    <form action="{{route('activities.destroy', $act)}}" method="POST" class="formulario-eliminar">
+                                        @csrf
+                                        @method('delete')
+                                        <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                                    </form>
+                                @endcan
                             </td>
                         </tr>
 
