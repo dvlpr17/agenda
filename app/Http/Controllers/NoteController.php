@@ -52,17 +52,37 @@ class NoteController extends Controller
      */
     public function store(Request $request)
     {
-        
+
+        //----------------------------------
+        //         Validación
+        //----------------------------------
         $request->validate([
             'nota' => 'required'
         ]);
+        //----------------------------------
 
+
+
+
+        //----------------------------------
         //GUARDANDO LOS REGISTROS
-        Note::create($request->all());
+        //----------------------------------
+        // Note::create($request->all());
+        //----------------------------------
 
-        // OBTENER EL OBJETO ACTIVITY CON EL ID PARA REDIRECCIONAR A LA VISTA EDIT Y MOSTRAR LA NOTA
+
+
+
+        //----------------------------------
+        // OBTENER LA ACTIVIDAD PARA REDIRECCIONAR
+        //----------------------------------
         $activity = Activity::find($request->activity_id);
+        //----------------------------------
+        
+        
+        session(['procedencia' => 'Notas']);
         return redirect()->route('activities.edit', $activity);
+        //----------------------------------
     }
 
     /**

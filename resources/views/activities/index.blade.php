@@ -31,20 +31,21 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($activities as $act)
+                    @foreach ($activities as $activity)
+
                         <tr>
-                            <td>{{ $act->id }}</td>
-                            <td>{{ $act->concept }}</td>
-                            <td>{{ $act->date_petition }}</td>
-                            <td>{{ $act->deadline }}</td>
-                            <td>{{ $act->date_entry }}</td>
-                            <td>{{ $act->status }}</td>
+                            <td>{{ $activity->id }}</td>
+                            <td>{{ $activity->concept }}</td>
+                            <td>{{ $activity->date_petition }}</td>
+                            <td>{{ $activity->deadline }}</td>
+                            <td>{{ $activity->date_entry }}</td>
+                            <td>{{ $activity->status }}</td>
                             <td>
-                                <a href="{{ route('activities.edit', $act) }}" class="btn btn-primary btn-sm"> Editar </a>
+                                <a href="{{ route('activities.edit', $activity) }}" class="btn btn-primary btn-sm"> Editar </a>
                             </td>
                             <td>
                                 @can('Activities.destroy')
-                                    <form action="{{route('activities.destroy', $act)}}" method="POST" class="formulario-eliminar">
+                                    <form action="{{route('activities.destroy', $activity)}}" method="POST" class="formulario-eliminar">
                                         @csrf
                                         @method('delete')
                                         <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
@@ -52,10 +53,7 @@
                                 @endcan
                             </td>
                         </tr>
-
-
                     @endforeach
-
                 </tbody>
             </table>
         </div>

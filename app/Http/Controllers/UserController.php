@@ -11,7 +11,9 @@ class UserController extends Controller
     
     public function index()
     {
-        $users = User::orderBy("id", "asc")->get();
+        // $users = User::orderBy("id", "asc")->get();
+        $users = User::all()->except(auth()->user()->id);
+
         return view('users.index', compact('users'));
     }
 

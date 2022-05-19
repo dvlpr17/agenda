@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
+
 Route::get('/', function () {
     // return view('welcome');
     return view('auth/login');
@@ -27,7 +28,7 @@ Route::delete('activities', [ActivityController::class, 'involucradosRemover'])-
 Route::post('extra', [ExtraController::class, 'store'])->name('extra.store');
 
 //USUARIOS ACTIVIDADES
-Route::resource('users', UserController::class)->names('users');
+Route::resource('users', UserController::class)->except('store')->names('users');
 Route::resource('activities', ActivityController::class)->names('activities');
 
 
@@ -37,6 +38,7 @@ Route::middleware([
     'verified'
 ])->group(function () {
     Route::get('/dashboard', function () {
+
         return view('dashboard');
     })->name('dashboard');
 });

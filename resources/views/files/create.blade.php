@@ -45,17 +45,16 @@
                     myDropZone.processQueue();
                 });
 
+                
                 this.on("complete",function(){
                     if(this.getQueuedFiles().length == 0 && this.getUploadingFiles().length == 0){
                         var _this = this;
                         _this.removeAllFiles();
-                        window.open("{{route('activities.edit', $activity)}}","_self"); 
+                        window.open("{{route('activities.edit', $activity) }} ","_self"); 
                     }
                 });
-
+                
             }
-            
-
         };
     </script>
 </x-app-layout>

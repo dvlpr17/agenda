@@ -43,7 +43,7 @@ class RoleSeeder extends Seeder
             'lastname' => 'Brejcha',
             'email' => 'web@dobleerre.com',
             'phone_number' => '5233123456789',
-            'password' => bcrypt('123456789'),
+            'password' => bcrypt('123'),
         ])->assignRole($role1);
 
 

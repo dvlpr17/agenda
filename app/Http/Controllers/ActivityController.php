@@ -6,21 +6,28 @@ use App\Models\Activity;
 use App\Models\File;
 use App\Models\Note;
 use App\Models\User;
+use App\Notifications\FilesNotification;
+use App\Notifications\NotasNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Notification;
 
 class ActivityController extends Controller
 {
     public function index()
     {
 
-        // $activities = Activity::orderBy("id", "asc")->get();
+        //$activities = Activity::orderBy("id", "asc")->get();
         // return view('activities.index', compact('activities'));
-
+        
         //------------------------------------
         //SOLO LAS ACTIVIDADES RELACIONADAS CON EL USUARIO EN TURNO
         $activities = auth()->user()->activities;
         return view('activities.index', compact('activities'));
+        //------------------------------------
+
+       
+
     }
 
     public function create()
@@ -57,8 +64,9 @@ class ActivityController extends Controller
         $theNoteUsers = [];
         $theFilesUsers = [];
 
-        /////////////////////////////////////////////////////////////////////////
-        // usuarios que agregaron notas
+        //---------------------------------------------------------
+        // USUARIOS QUE AGREGARON NOTAS
+        //---------------------------------------------------------
         $notes = Note::where('activity_id', $activity->id)->latest('id')->get();
         if(isset($notes)){
             foreach ($notes as $note) {
@@ -67,9 +75,13 @@ class ActivityController extends Controller
         }
         $notesUsers = User::findMany($theNoteUsers);
         // return $notesUsers;
-        
-        /////////////////////////////////////////////////////////////////////////
-        // usuarios que subieron archivos
+        //---------------------------------------------------------
+
+
+
+        //---------------------------------------------------------
+        // USUARIOS QUE SUBIERON ARCHIVOS
+        //---------------------------------------------------------
         $files = File::where('activity_id', $activity->id)->latest('id')->get();
         if (isset($files)) {
             foreach ($files as $file) {
@@ -78,9 +90,13 @@ class ActivityController extends Controller
         } 
         $filesUsers = User::findMany($theFilesUsers);
         // return $filesUsers;
+        //---------------------------------------------------------
 
-        /////////////////////////////////////////////////////////////////////////
-        // usuarios relacionados con la actividad
+
+
+        //---------------------------------------------------------
+        // USUARIOS REGISTRADOS EN LA ACTIVIDAD
+        //---------------------------------------------------------
         $users = $activity->users;
         $au = [];
 
@@ -94,9 +110,42 @@ class ActivityController extends Controller
         $allUsers = User::select("*")->whereNotIn('id', $au)->get();
         // $allUsers = User::all();
         //return $activity->users;
-        /////////////////////////////////////////////////////////////////////////
+        //---------------------------------------------------------
 
+
+
+        if(session()->has('procedencia')){
+
+            $value = session()->get('procedencia');
+            session()->forget('procedencia');
+
+            $NombreCompleto = auth()->user()->name.' '.auth()->user()->lastname;
+            $admins = User::role('Admin')->get();
+            
+            //---------------------------------------------------------
+            // CORREO POR UN ARCHIVO
+            //---------------------------------------------------------
+            if($value === 'Files'){
+                Notification::send($admins, new FilesNotification($NombreCompleto, $activity->concept));
+            }
+            
+            //---------------------------------------------------------
+            // CORREO POR UNA NOTA
+            //---------------------------------------------------------
+            if ($value === 'Notas') {
+                Notification::send($admins, new NotasNotification($NombreCompleto, $activity->concept));
+            }
+
+
+        }
+        
         return view('activities.edit', compact('activity','notes', 'notesUsers', 'files', 'filesUsers', 'users', 'allUsers'));
+
+        
+        //---------------------------------------------------------
+
+
+
         // return view('activities.edit', compact('activity'));
     }
 
@@ -128,13 +177,13 @@ class ActivityController extends Controller
 
 
         //-------------------------------------
-        // Manera 1.-  Si funciona, no es necesaria
+        // Manera 1.-  Si funciona, pero no es necesaria
 
         // Note::where('activity_id', $activity->id)->latest('id')->delete();
         // File::where('activity_id', $activity->id)->latest('id')->delete();
 
         //-------------------------------------
-        // Manera 2.- Si funciona
+        // Manera 2.- Es la mejor opción
 
         //BORRA LOS ARCHIVOS RELACIONADOS CON LA ACTIVIDAD
         $files = File::where('activity_id', $activity->id)->latest('id')->get();

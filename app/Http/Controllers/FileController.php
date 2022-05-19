@@ -45,25 +45,46 @@ class FileController extends Controller
      */
     public function store(Request $request)
     {
-        
+        //---------------------------------
+        //          VALIDACIÓN
+        //---------------------------------
         $request->validate([
             'file' => 'required'
         ]);
+        //---------------------------------
 
-        // $url = Storage::put('archivos', $request->file('ruta'));
+
+
+        //---------------------------------
+        //GUARDAR ARCHIVO EN LA CARPETA ARCHIVOS DENTRO DE STORAGE
+        //---------------------------------
         $url = Storage::put('archivos', $request->file('file'));
+        //---------------------------------
 
-        
-        //GUARDANDO LOS REGISTROS
+
+
+
+        //---------------------------------
+        //GUARDANDO REGISTRO EN LA TABLA FILES
+        //---------------------------------
         File::create([
             'user_id' => $request->user_id,
             'activity_id' => $request->activity_id,
             'ruta' => $url
         ]);
+        //---------------------------------
 
-
+        
+        
+        session(['procedencia' => 'Files']);
+        
+        //---------------------------------
+        //ESTA PARTE NO SE REQUIERE PUES DESDE EL FORMULARIO files.create.blade CON AJAX YA SE REDIRECCIONA
+        //---------------------------------
         // $activity = Activity::find($request->activity_id);
-        // return redirect()->route('activities.edit', $activity);
+        //return redirect()->route('activities.edit', $activity);
+        //---------------------------------
+
         
     }
 
