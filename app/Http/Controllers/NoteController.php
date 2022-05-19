@@ -67,7 +67,7 @@ class NoteController extends Controller
         //----------------------------------
         //GUARDANDO LOS REGISTROS
         //----------------------------------
-        // Note::create($request->all());
+        Note::create($request->all());
         //----------------------------------
 
 
