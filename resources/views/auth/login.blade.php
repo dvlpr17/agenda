@@ -1,9 +1,11 @@
 <x-guest-layout>
     <x-jet-authentication-card>
         <x-slot name="logo">
-            <x-jet-authentication-card-logo />
+            {{-- <x-jet-authentication-card-logo /> --}}
+            <a href="/"><img src="https://combugese.com.mx/wp-content/uploads/2020/12/logo_combu.jpg" class="logo" alt="Logo Combuexpress" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; border: none;"></a>
         </x-slot>
-
+        
+        
         <x-jet-validation-errors class="mb-4" />
 
         @if (session('status'))
