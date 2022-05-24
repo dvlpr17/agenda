@@ -14,6 +14,15 @@ use Illuminate\Support\Facades\Notification;
 
 class ActivityController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('can:Activities.create')->only('create', 'store');
+        $this->middleware('can:Activities.edit')->only('edit', 'update');
+        $this->middleware('can:Activities.destroy')->only('destroy');
+    }
+
+
     public function index()
     {
 

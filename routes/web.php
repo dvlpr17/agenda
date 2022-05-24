@@ -36,7 +36,8 @@ Route::middleware([
     //RELACION NOTAS FILES USUARIOS CON ACTIVIDADES
     Route::delete('activities', [ActivityController::class, 'involucradosRemover'])->name('activities.involucradosRemover');
     Route::post('extra', [ExtraController::class, 'store'])->name('extra.store');
-
+    Route::post('/all', [ExtraController::class, 'all'])->name('extra.all');
+    
 
     //USUARIOS ACTIVIDADES
     Route::resource('users', UserController::class)->names('users');
@@ -45,4 +46,3 @@ Route::middleware([
 
 
 });
-

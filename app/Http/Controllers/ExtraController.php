@@ -11,6 +11,14 @@ use App\Notifications\involucradosNotification;
 class ExtraController extends Controller
 {
 
+    public function all(Request $request)
+    {
+        $activity = Activity::all();
+
+        return response(json_encode($activity),200)->header('Content-type','text/plain');
+    }
+
+
     public function store(Request $request)
     {
 
