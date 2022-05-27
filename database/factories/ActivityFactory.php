@@ -21,7 +21,7 @@ class ActivityFactory extends Factory
 
         return [
 
-            'concept' => $this->faker->text(250),
+            'concept' => $this->faker->text(150),
             'description' => $this->faker->text(2000),
             'date_petition' => $stD,
             'deadline' => $endDate,

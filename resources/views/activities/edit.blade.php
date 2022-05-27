@@ -15,7 +15,7 @@
 
                 @include('activities.partials.form')
 
-                @can('Activities.edit')
+                @can('Activities.store')
                     {!! Form::submit('Actualizar Actividad', ['class' => 'text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center']) !!}
                     
                 @endcan
@@ -116,7 +116,7 @@
                 <article x-data=" { open: true }" class="mt-16">
                     <h3 class="font-bold mt-1 sm:text-slate-900 md:text-2xl text-2xl pb-5 cursor-pointer" @click="open = !open">Involucrados</h3>
                     <div x-show="open">
-                        @can('Activities.edit')
+                        @can('Activities.store')
                         <p>Click en le nombre de la persona para remover de la lista</p>
                         @endcan
                         <div class="bg-slate-100 p-5 border-gray-600 rounded-lg">
@@ -127,7 +127,7 @@
                                     <input type="hidden" name="usuario" value="{{$u->id}}">
                                     <input type="hidden" name="actividad" value="{{$activity->id}}">
                                     <p>
-                                        @can('Activities.edit')
+                                        @can('Activities.store')
                                             <button type="submit">{{ $u->name }} {{$u->lastname }} </button>
                                         @else
                                             {{ $u->name }} {{$u->lastname }}
@@ -141,7 +141,7 @@
                         <div class="my-5 border-b"></div>
                     </div>
                     {{-- Hacer estaparte con livewire en el futuro --}}
-                    @can('Activities.edit')
+                    @can('Activities.store')
                     <form action="{{route('extra.store')}}" method = "POST">
                         @csrf
                         <input type="hidden" name="actividad" value="{{$activity->id}}">
