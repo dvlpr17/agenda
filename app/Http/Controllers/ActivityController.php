@@ -28,12 +28,20 @@ class ActivityController extends Controller
 
         //$activities = Activity::orderBy("id", "asc")->get();
         // return view('activities.index', compact('activities'));
-        
+
         //------------------------------------
         //SOLO LAS ACTIVIDADES RELACIONADAS CON EL USUARIO EN TURNO
-        $activities = auth()->user()->activities;
-        return view('activities.index', compact('activities'));
+        // $activities = auth()->user()->activities;
+        // return view('activities.index', compact('activities'));
         //------------------------------------
+
+        $activities = Activity::orderBy("id", "asc")->get();
+        if (is_null($activities)) {
+            return view('activities.index', compact('activities'));
+        } else {
+            $activities = auth()->user()->activities;
+            return view('activities.index', compact('activities'));
+        }
 
        
 
